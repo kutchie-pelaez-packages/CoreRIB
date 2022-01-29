@@ -9,6 +9,12 @@ let package = Package(
     ],
     products: [
         .library(
+            name: "RoutingQueue",
+            targets: [
+                "RoutingQueue"
+            ]
+        ),
+        .library(
             name: "CoreRIB",
             targets: [
                 "CoreRIB"
@@ -27,6 +33,14 @@ let package = Package(
         .package(name: "SheetTransition", url: "https://github.com/kutchie-pelaez-packages/SheetTransition.git", .branch("master"))
     ],
     targets: [
+        .target(
+            name: "RoutingQueue",
+            dependencies: [
+                .product(name: "Core", package: "Core"),
+                .target(name: "CoreRIB"),
+                .target(name: "RouterIdentifier")
+            ]
+        ),
         .target(
             name: "CoreRIB",
             dependencies: [
