@@ -10,7 +10,7 @@ open class Router: Routable {
         self.id = id
     }
 
-    internal let stateValueSubject = CurrentValueSubject<RouterState, Never>(.detached)
+    internal let _stateSubject = MutableValueSubject<RouterState>(.detached)
     private let eventPassthroughSubject = PassthroughSubject<RouterEvent, Never>()
 
     internal var name: String {
@@ -39,15 +39,9 @@ open class Router: Routable {
 
     public let id: RouterIdentifier
 
-    public var children = [Routable]()
+    public private(set) var children = [Routable]()
 
-    public var state: RouterState {
-        stateValueSubject.value
-    }
-
-    public var statePublisher: ValuePublisher<RouterState> {
-        stateValueSubject.eraseToAnyPublisher()
-    }
+    public var stateSubject: ValueSubject<RouterState> { _stateSubject }
 
     public var eventPublisher: ValuePublisher<RouterEvent> {
         eventPassthroughSubject.eraseToAnyPublisher()
@@ -70,9 +64,9 @@ open class Router: Routable {
         children.append(child)
 
         if let router = child as? Router {
-            router.stateValueSubject.value = .attaching
+            router._stateSubject.value = .attaching
             await router.didRequestAttaching()
-            router.stateValueSubject.value = .attached
+            router._stateSubject.value = .attached
         }
 
         eventPassthroughSubject.send(.didAttachChild(child.id))
@@ -97,9 +91,9 @@ open class Router: Routable {
         logger.log("Detaching \(child.name) from \(self.name)")
 
         if let router = child as? Router {
-            router.stateValueSubject.value = .detaching
+            router._stateSubject.value = .detaching
             await router.didRequestDetaching()
-            router.stateValueSubject.value = .detached
+            router._stateSubject.value = .detached
         }
 
         removeChildren(with: identifier)

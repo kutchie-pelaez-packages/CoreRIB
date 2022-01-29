@@ -72,7 +72,7 @@ final class RoutingQueueImpl: RoutingQueue {
             router?.traverse { router in
                 if
                     router.id == routerIdentifier &&
-                    router.state == .attached
+                    router.stateSubject.value == .attached
                 {
                     result = true
                 }
