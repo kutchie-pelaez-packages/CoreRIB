@@ -32,5 +32,5 @@ public struct RoutingQueueTask {
 
     let identifier: RoutingQueueTaskIdentifier
     let blockable: Bool
-    let block: AsyncBlock
+    let block: () async -> Void
 }
