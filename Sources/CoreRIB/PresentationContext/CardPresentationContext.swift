@@ -1,7 +1,7 @@
-import SheetTransition
+import CardTransition
 import UIKit
 
-public final class SheetPresentationContext:
+public final class CardPresentationContext:
     NSObject,
     PresentationContext,
     UIViewControllerTransitioningDelegate
@@ -14,9 +14,9 @@ public final class SheetPresentationContext:
 
     private let source: UIViewController
 
-    private let presentingAnimator = SheetAnimator(direction: .presenting)
-    private let dismissingAnimator = SheetAnimator(direction: .dismissing)
-    private let dismissingInteractiveAnimator = SheetDismissingInteractiveAnimator()
+    private let presentingAnimator = CardAnimator(direction: .presenting)
+    private let dismissingAnimator = CardAnimator(direction: .dismissing)
+    private let dismissingInteractiveAnimator = CardDismissingInteractiveAnimator()
 
     // MARK: - PresentationContext
 
@@ -70,7 +70,7 @@ public final class SheetPresentationContext:
     }
 
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        let presentationController = SheetPresentationController(
+        let presentationController = CardPresentationController(
             presentedViewController: presented,
             presenting: presenting ?? source
         )
