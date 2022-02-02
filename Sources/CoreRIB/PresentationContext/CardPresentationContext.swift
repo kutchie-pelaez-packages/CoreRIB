@@ -14,9 +14,7 @@ public final class CardPresentationContext:
 
     private let source: UIViewController
 
-    private let presentingAnimator = CardAnimator(direction: .presenting)
-    private let dismissingAnimator = CardAnimator(direction: .dismissing)
-    private let dismissingInteractiveAnimator = CardDismissingInteractiveAnimator()
+    private let transitioningDelegate = CardTransitioningDelegate()
 
     // MARK: - PresentationContext
 
@@ -24,7 +22,7 @@ public final class CardPresentationContext:
         guard source.presentedViewController.isNil else { return }
 
         viewController.modalPresentationStyle = .custom
-        viewController.transitioningDelegate = self
+        viewController.transitioningDelegate = transitioningDelegate
 
         await withCheckedContinuation { continuation in
             source.present(
@@ -49,33 +47,5 @@ public final class CardPresentationContext:
                 }
             )
         }
-    }
-
-    // MARK: - UIViewControllerTransitioningDelegate
-
-    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        presentingAnimator
-    }
-
-    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        dismissingAnimator
-    }
-
-    public func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        nil
-    }
-
-    public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        dismissingInteractiveAnimator
-    }
-
-    public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        let presentationController = CardPresentationController(
-            presentedViewController: presented,
-            presenting: presenting ?? source
-        )
-        presentationController.link(dismissingInteractiveAnimator)
-
-        return presentationController
     }
 }
