@@ -1,12 +1,7 @@
 import Core
 import UIKit
 
-public final class PopoverPresentationContext:
-    NSObject,
-    PresentationContext,
-    UIAdaptivePresentationControllerDelegate
-{
-
+public final class PopoverPresentationContext: NSObject, PresentationContext, UIAdaptivePresentationControllerDelegate {
     public init(
         source: UIViewController,
         prefersGrabberVisible: Bool = false,

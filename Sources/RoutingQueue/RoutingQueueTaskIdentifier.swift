@@ -3,7 +3,6 @@ public struct RoutingQueueTaskIdentifier:
     ExpressibleByStringInterpolation,
     Hashable
 {
-
     // MARK: - RawRepresentable
 
     public init?(rawValue: String) {

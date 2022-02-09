@@ -1,12 +1,7 @@
 import CardTransition
 import UIKit
 
-public final class CardPresentationContext:
-    NSObject,
-    PresentationContext,
-    UIViewControllerTransitioningDelegate
-{
-
+public final class CardPresentationContext: NSObject, PresentationContext, UIViewControllerTransitioningDelegate {
     public init(source: UIViewController) {
         self.source = source
         super.init()

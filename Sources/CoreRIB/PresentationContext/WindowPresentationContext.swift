@@ -17,7 +17,7 @@ public struct WindowPresentationContext: PresentationContext {
 
     public func dismiss(_ viewController: UIViewController) async {
         guard window.rootViewController === viewController else {
-            appAssertionFailure()
+            safeCrash()
             return
         }
 

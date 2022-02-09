@@ -4,7 +4,6 @@ public struct RouterIdentifier:
     CustomStringConvertible,
     Hashable
 {
-
     // MARK: - RawRepresentable
 
     public init?(rawValue: String) {

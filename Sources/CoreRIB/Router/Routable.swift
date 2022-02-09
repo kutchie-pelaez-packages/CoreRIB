@@ -4,6 +4,7 @@ import RouterIdentifier
 
 public protocol Routable: AnyObject {
     var id: RouterIdentifier { get }
+    var parent: Routable? { get }
     var children: [Routable] { get }
     var stateSubject: ValueSubject<RouterState> { get }
     var eventPublisher: ValuePublisher<RouterEvent> { get }
