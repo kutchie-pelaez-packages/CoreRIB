@@ -68,12 +68,12 @@ open class Router: Routable {
             return
         }
 
-        guard self.child(for: child.id).isNil else {
+        if self.child(for: child.id).isNotNil {
             _logger?.warning(
-                "Attemp to attach \(child.name) to \(self.name) which is already attached. Aborting...",
+                "Attemp to attach \(child.name) to \(self.name) which is already attached. Detaching first...",
                 domain: .routing
             )
-            return
+            await detach(child.id)
         }
 
         _logger?.log("Attaching \(child.name) to \(self.name)", domain: .routing)
