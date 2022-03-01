@@ -63,20 +63,20 @@ open class Router: Routable {
 
     public func attach(_ child: Routable) async {
         guard self !== child else {
-            _logger?.error("Attaching self as a child is not allowed", domain: .routing)
+            _logger?.error("Failed to attach \(child.name) to \(self.name), error: Attaching self as a child is not allowed", domain: .routing)
             safeCrash()
             return
         }
 
         if self.child(for: child.id).isNotNil {
             _logger?.warning(
-                "Attemp to attach \(child.name) to \(self.name) which is already attached. Detaching first...",
+                "Failed to attach \(child.name) to \(self.name) which is already attached. Detaching first...",
                 domain: .routing
             )
             await detach(child.id)
         }
 
-        _logger?.log("Attaching \(child.name) to \(self.name)", domain: .routing)
+        _logger?.log("Attaching \(child.name) to \(self.name)...", domain: .routing)
 
         children.append(child)
 
@@ -93,7 +93,7 @@ open class Router: Routable {
     public func detach(_ identifier: RouterIdentifier) async {
         guard let child = child(for: identifier) else {
             _logger?.warning(
-                "Failed to find child in \(self.name)'s children with \(identifier) id. Trying to find it deeper...",
+                "Failed to find \(identifier) in \(self.name)'s children. Trying to find it deeper...",
                 domain: .routing
             )
 
@@ -104,12 +104,12 @@ open class Router: Routable {
                 }
             }
 
-            _logger?.error("Failed to find child in \(self.name)'s children with \(identifier) id", domain: .routing)
+            _logger?.error("Failed to find \(identifier) in \(self.name)'s children", domain: .routing)
             safeCrash()
             return
         }
 
-        _logger?.log("Detaching \(child.name) from \(self.name)", domain: .routing)
+        _logger?.log("Detaching \(child.name) from \(self.name)...", domain: .routing)
 
         if let router = child as? Router {
             router._stateSubject.value = .detaching
