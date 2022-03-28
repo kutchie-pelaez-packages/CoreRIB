@@ -21,7 +21,7 @@ public enum RoutingQueueTaskCondition {
             resolver,
             timerPublisher
                 .autoconnect()
-                .eraseToVoidPublisher()
+                .voided()
         )
     }
 }
